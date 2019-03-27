@@ -43,7 +43,7 @@ def task_3(connection):
                       # location
                       popup= df.iloc[i]['Neighbourhood_Name'] + str(df.iloc[i]['count'])
                       # popup text
-                      radius= 100, # size of radius in meter
+                      radius= df.iloc[i]['count'], # size of radius in meter
                       color= 'crimson’,
                       fill= True,
                       # whether to fill the map
