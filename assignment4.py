@@ -52,8 +52,6 @@ def task_3(connection):
                       ).add_to(m)
 
     # creating the marker with a popup and add it to map
-    #folium.Marker([53.52199, -113.49099], popup=“Strathcona”).add_to(m)
-    
     # saving the marker
     m.save("Q3.html")
 
