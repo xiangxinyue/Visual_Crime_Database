@@ -44,10 +44,10 @@ def task_3(connection):
                       popup= df.iloc[i]['Neighbourhood_Name'] + str(df.iloc[i]['count']),
                       # popup text
                       radius= df.iloc[i]['count'], # size of radius in meter
-                      color= 'crimson’,
+                      color= "crimson",
                       fill= True,
                       # whether to fill the map
-                      fill_color= 'crimson’
+                      fill_color= "crimson"
                       # color to fill with
                       ).add_to(m)
 
@@ -55,7 +55,7 @@ def task_3(connection):
     #folium.Marker([53.52199, -113.49099], popup=“Strathcona”).add_to(m)
     
     # saving the marker
-    m.save(“Q3.html”)
+    m.save("Q3.html")
 
 def task_4(connection):
     pass
