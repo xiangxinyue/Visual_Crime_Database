@@ -41,7 +41,7 @@ def task_3(connection):
         folium.Circle(
                       location=[df.iloc[i]['Latitude'],df.iloc[i]['Longitude']],
                       # location
-                      popup= df.iloc[i]['Neighbourhood_Name'] + str(df.iloc[i]['count'])
+                      popup= df.iloc[i]['Neighbourhood_Name'] + str(df.iloc[i]['count']),
                       # popup text
                       radius= df.iloc[i]['count'], # size of radius in meter
                       color= 'crimson’,
