@@ -5,9 +5,66 @@ import matplotlib.pyplot as plt
 import matplotlib
 import folium
 
+
 def task_1(connection):
-        
-    pass
+    '''
+    Given a range of years and crime type, 
+    show (in a bar plot) the month-wise total count of the given crime type. 
+    '''
+    # require inputs
+    s_year = input("Enter start year (YYYY): ")
+    
+
+    #input start year and check if the input is valid
+    while (s_year.isdigit() == False):
+        s_year = input("Enter start year (YYYY): ")
+    if s_year.isdigit() == True :
+        s_year_tuple = int(s_year)
+
+    #input end year and check if the input is valid
+    e_year = input("Enter end year (YYYY): ")
+    while (e_year.isdigit() == False):
+        e_year = input("Enter end year (YYYY): ")
+    if e_year.isdigit()==True:
+        e_year_tuple = int(e_year)
+    
+    #input crime type
+    c_type = input("Enter crime type: ")
+    c_type_tuple = "'"+c_type+"'"
+
+    if s_year_tuple>e_year_tuple:           # if start year is greater than end year then return
+        return print("Invalid start year and end year.")
+
+    #inp_tuple = ("'"+c_type+"'",s_year,e_year,)
+    #print(type(t_1))
+
+    # sql query
+    statement = "select Month, sum(Incidents_Count) as count from crime_incidents where Crime_Type = %s and Year between %d and %d group by Month;"
+    df = pd.read_sql_query(statement%(c_type_tuple,s_year_tuple,e_year_tuple,) ,connection)
+    
+    #add empty month to the dataframe
+    for i in range(12):
+        m = i+1
+        if m not in df['Month'].values:
+            print(i,"Not in dataframe")
+            df = df.append({'Month': m,'count':0},ignore_index=True)
+    
+    df = df.sort_values(by=['Month'])   #sort the dataframe according to the month
+
+    #print(df)
+    
+    if df.empty:
+        return print("No crime occcured in that range\n")
+    else:
+        #print(df)
+        #print("\n")
+
+        #print the output
+        plot = df.plot.bar(x="Month")
+        plt.plot()
+        plt.show()
+        return
+
 
 def task_2(connection):
     pass
