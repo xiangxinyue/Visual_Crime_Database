@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import matplotlib
 import folium
 
-
 def task_1(connection):
     '''
     Given a range of years and crime type, 
@@ -47,29 +46,26 @@ def task_1(connection):
     statement = "select Month, sum(Incidents_Count) as count from crime_incidents where Crime_Type = %s and Year between %d and %d group by Month;"
     df = pd.read_sql_query(statement%(c_type_tuple,s_year_tuple,e_year_tuple,) ,connection)
     
-    #add empty month to the dataframe
-    for i in range(12):
-        m = i+1
-        if m not in df['Month'].values:
-            print(i,"Not in dataframe")
-            df = df.append({'Month': m,'count':0},ignore_index=True)
-    
-    df = df.sort_values(by=['Month'])   #sort the dataframe according to the month
 
-    #print(df)
-    
     if df.empty:
         return print("No crime occcured in that range\n")
     else:
-        #print(df)
-        #print("\n")
+        #add empty month to the dataframe
+        for i in range(12):
+            m = i+1
+            if m not in df['Month'].values:
+                print(i,"Not in dataframe")
+                df = df.append({'Month': m,'count':0},ignore_index=True)
+        
+        df = df.sort_values(by=['Month'])   #sort the dataframe according to the month
 
-        #print the output
+        #print(df)
+    
+        #draw the bar plot 
         plot = df.plot.bar(x="Month")
         plt.plot()
         plt.show()
         return
-
 
 def task_2(connection):
     pass
