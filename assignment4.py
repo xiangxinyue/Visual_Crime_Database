@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import folium
 
+
 def task_1(connection):
     '''
     Given a range of years and crime type, 
