@@ -83,7 +83,7 @@ def task_3(connection):
     num_neighbor = int(input("Enter number of neighborhoods: "))
     
     #write the query for Q3
-    df = pd.read_sql_query('''SELECT C1.Neighbourhood_Name, sum(C1.Incidents_Count) as count, C2.Latitude, C2.Longitude FROM crime_incidents C1, coordinates C2 WHERE C1.Neighbourhood_Name = C2.Neighbourhood_Name AND Year >= %d AND Year <= %d AND Crime_Type = %s GROUP BY C1.Neighbourhood_Name ORDER BY sum(C1.Incidents_Count) DESC limit %d;'''%(start_year,end_year,type_crime,num_neighbor),connection)
+    df = pd.read_sql_query('''SELECT C1.Neighbourhood_Name, sum(C1.Incidents_Count) as count, C2.Latitude, C2.Longitude FROM crime_incidents C1, coordinates C2 WHERE C1.Neighbourhood_Name = C2.Neighbourhood_Name AND Year >= %d AND Year <= %d AND Crime_Type = "%s" GROUP BY C1.Neighbourhood_Name ORDER BY sum(C1.Incidents_Count) DESC limit %d;'''%(start_year,end_year,type_crime,num_neighbor),connection)
     
     print(df)
     array_data = np.array(df)#np.ndarray()
@@ -129,9 +129,8 @@ def main():
         print("3: Q3")
         print("4: Q4")
         print("E: Exit")
-        print("Enter your choice: ")
+        inp = input("Enter your choice: ")
         tasks=['E','1','2','3','4']
-        inp = input()
         while inp in tasks:
             if inp == 'E':
                 return
