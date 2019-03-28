@@ -101,26 +101,27 @@ def task_2(connection):
         for j in range(len(list_data)-i):
             if most == list_data[i+j][1]:
                 N_most_and_least.append(list_data[i+j])
-                count += 1
-                i +=1
+
+                count +=1
                 #print(list_data[i+j])
             else:
                 break
+        i = i+count
 
     # append N-least populous neighbourhood into N_most_and_least
     i = 1
     while(i<loc+1):
         least = list_data[-i][1]
-        count = 0
+        count = 0 
         for j in range(len(list_data)-i):
             if least == list_data[-i-j][1]:
                 N_most_and_least.append(list_data[-i-j])
                 count += 1
-                i += 1
+                
                 #print(list_data[-i-j])
             else:
                 break  
-
+        i += count
     print("\n",N_most_and_least)
 
     m = folium.Map(location=[53.5444,-113.323], zoom_start=11)
@@ -166,6 +167,7 @@ def task_3(connection):
 
 
     #print(df)
+
     array_data = np.array(df)#np.ndarray()
     list_data= array_data.tolist()#list
     #print(list_data)
@@ -182,11 +184,12 @@ def task_3(connection):
         for j in range(len(list_data)-i):
             if most == list_data[i+j][1]:
                 N_most_and_least.append(list_data[i+j])
-                count += 1
-                i +=1
-                #print(list_data[i+j])
+                #print("hi",list_data[i+j])
+                count +=1
+        
             else:
                 break
+        i += count
 
     print("\n",N_most_and_least)
     
