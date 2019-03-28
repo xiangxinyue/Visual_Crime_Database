@@ -67,8 +67,84 @@ def task_1(connection):
         plt.show()
         return
 
+
+    
 def task_2(connection):
-    pass
+    '''
+    Given an integer N, 
+    show (in a map) the N-most populous and N-least populous neighborhoods 
+    with their population count
+    '''
+    loc = input("Enter number of location: ")
+    while (loc.isdigit() == False):
+        loc = input("Enter number of location: ")
+    if loc.isdigit() == True :
+        loc = int(loc)
+    
+    statement= "select p.Neighbourhood_name, (p.CANADIAN_CITIZEN+p.NON_CANADIAN_CITIZEN+p.NO_RESPONSE) AS count, c.Latitude,c.Longitude from population p, coordinates c where p.Neighbourhood_Name=c.Neighbourhood_Name and count != 0 ORDER BY count DESC;"
+
+    df = pd.read_sql_query(statement,connection)
+    #print(df)
+    array_data = np.array(df)#np.ndarray()
+    list_data= array_data.tolist()#list
+    #print(list_data)
+
+    N_most_and_least = []
+    
+
+    # append N-most populous neighbourhood into N_most_and_least
+    i = 0
+    while(i<loc):
+        most = list_data[i][1]
+        count = 0
+        for j in range(len(list_data)-i):
+            if most == list_data[i+j][1]:
+                N_most_and_least.append(list_data[i+j])
+                count += 1
+                i +=1
+                #print(list_data[i+j])
+            else:
+                break
+
+    # append N-least populous neighbourhood into N_most_and_least
+    i = 1
+    while(i<loc+1):
+        least = list_data[-i][1]
+        count = 0
+        for j in range(len(list_data)-i):
+            if least == list_data[-i-j][1]:
+                N_most_and_least.append(list_data[-i-j])
+                count += 1
+                i += 1
+                #print(list_data[-i-j])
+            else:
+                break  
+
+    print("\n",N_most_and_least)
+
+    m = folium.Map(location=[53.5444,-113.323], zoom_start=11)
+    #Creating bubble marker on the map -
+    # Useful for comparison of an attribute (population, crime rate etc.) in different locations
+    #Each bubble has a size related to a specific value.
+    for i in range(len(N_most_and_least)):
+        folium.Circle(
+                      location=[N_most_and_least[i][2],N_most_and_least[i][3]],
+                      # location
+                      popup= ("%s <br> %s" % (N_most_and_least[i][0],N_most_and_least[i][1])),
+                      # popup text
+                      radius= N_most_and_least[i][1]*0.1,
+                      # size of radius in meter
+                      color= 'crimson',
+                      fill= True,
+                      # whether to fill the map
+                      fill_color= 'crimson'
+                      # color to fill with
+                      ).add_to(m)
+
+    # creating the marker with a popup and add it to map
+    # saving the marker
+    m.save("Q2.html")
+
 
 def task_3(connection):
     connection=sqlite3.connect("a4.db")
