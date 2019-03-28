@@ -77,10 +77,16 @@ def task_2(connection):
 def task_3(connection):
     connection=sqlite3.connect("a4.db")
     #enter 4 inputs
+    
     start_year = int(input("Enter start year (YYYY): "))
     end_year = int(input("Enter end year (YYYY): "))
+    if start_year>end_year:           # if start year is greater than end year then return
+        return print("Invalid start year and end year.")
+
     type_crime = str(input("Enter crime type: "))
     num_neighbor = int(input("Enter number of neighborhoods: "))
+
+
     
     #write the query for Q3
     df = pd.read_sql_query('''SELECT C1.Neighbourhood_Name, sum(C1.Incidents_Count) as count, C2.Latitude, C2.Longitude FROM crime_incidents C1, coordinates C2 WHERE C1.Neighbourhood_Name = C2.Neighbourhood_Name AND Year >= %d AND Year <= %d AND Crime_Type = "%s" GROUP BY C1.Neighbourhood_Name ORDER BY sum(C1.Incidents_Count) DESC limit %d;'''%(start_year,end_year,type_crime,num_neighbor),connection)
@@ -89,7 +95,7 @@ def task_3(connection):
     array_data = np.array(df)#np.ndarray()
     list_data= array_data.tolist()#list
     print(list_data)
-    #print(list_data[][2])
+    
     #instantiating a map
     # location = latitude and longitude of thecurrent location
     # zoom_start = zoom level
