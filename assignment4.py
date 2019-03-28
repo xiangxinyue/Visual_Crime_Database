@@ -1,3 +1,8 @@
+'''
+In this assignment, I will be using the Pandas, Matplotlib and Folium Python libraries 
+to manipulate and visualize two datasets which contain population and crime incident information 
+at different neighborhoods in Edmonton.  
+'''
 import pandas as pd
 import numpy as np
 import sqlite3
