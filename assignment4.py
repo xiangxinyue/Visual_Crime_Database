@@ -15,20 +15,19 @@ def task_2(connection):
 def task_3(connection):
     connection=sqlite3.connect("a4.db")
     #enter 4 inputs
-    start_year = input("Enter start year (YYYY): ")
-    end_year = input("Enter end year (YYYY): ")
-    type_crime = input("Enter crime type: ")
-    num_neighbor = input("Enter number of neighborhoods: ")
+    start_year = int(input("Enter start year (YYYY): "))
+    end_year = int(input("Enter end year (YYYY): "))
+    type_crime = str(input("Enter crime type: "))
+    num_neighbor = int(input("Enter number of neighborhoods: "))
     
     #write the query for Q3
-    df = pd.read_sql_query("SELECT C1.Neighbourhood_Name, sum(C1.Incidents_Count) as count, C2.Latitude, C2.Longitude FROM crime_incidents C1, coordinates C2 WHERE C1.Neighbourhood_Name = C2.Neighbourhood_Name AND Year >= %d AND Year <= %d AND Crime_Type = %s ORDER BY sum(Incidents_Count) as count limit %d",start_year,end_year,type_crime,num_neighbor,connection)
+    df = pd.read_sql_query('''SELECT C1.Neighbourhood_Name, sum(C1.Incidents_Count) as count, C2.Latitude, C2.Longitude FROM crime_incidents C1, coordinates C2 WHERE C1.Neighbourhood_Name = C2.Neighbourhood_Name AND Year >= %d AND Year <= %d AND Crime_Type = %s GROUP BY C1.Neighbourhood_Name ORDER BY sum(C1.Incidents_Count) DESC limit %d;'''%(start_year,end_year,type_crime,num_neighbor),connection)
     
-#SELECT C1.Neighbourhood_Name, sum(C1.Incidents_Count) as count, C2.Latitude, C2.Longitude
-#FROM crime_incidents C1, coordinates C2
-#WHERE C1.Neighbourhood_Name = C2.Neighbourhood_Name AND C1.Year >= 2011
-#AND C1.Year <= 2013 AND C1.Crime_Type = "Assault"
-#ORDER BY sum(C1.Incidents_Count) LIMIT 3
-
+    print(df)
+    array_data = np.array(df)#np.ndarray()
+    list_data= array_data.tolist()#list
+    print(list_data)
+    #print(list_data[][2])
     #instantiating a map
     # location = latitude and longitude of thecurrent location
     # zoom_start = zoom level
@@ -37,17 +36,18 @@ def task_3(connection):
     #Creating bubble marker on the map -
     # Useful for comparison of an attribute (population, crime rate etc.) in different locations
     #Each bubble has a size related to a specific value.
-    for i in range(len(df)):
+    for i in range(len(list_data)):
         folium.Circle(
-                      location=[df.iloc[i]['Latitude'],df.iloc[i]['Longitude']],
+                      location=[list_data[i][2],list_data[i][3]],
                       # location
-                      popup= df.iloc[i]['Neighbourhood_Name'] + str(df.iloc[i]['count']),
+                      popup= ("%s <br> %s" % (list_data[i][0],list_data[i][1])),
                       # popup text
-                      radius= df.iloc[i]['count'], # size of radius in meter
-                      color= "crimson",
+                      radius= list_data[i][1],
+                      # size of radius in meter
+                      color= 'crimson',
                       fill= True,
                       # whether to fill the map
-                      fill_color= "crimson"
+                      fill_color= 'crimson'
                       # color to fill with
                       ).add_to(m)
 
