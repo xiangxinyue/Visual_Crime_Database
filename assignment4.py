@@ -162,12 +162,33 @@ def task_3(connection):
 
     
     #write the query for Q3
-    df = pd.read_sql_query('''SELECT C1.Neighbourhood_Name, sum(C1.Incidents_Count) as count, C2.Latitude, C2.Longitude FROM crime_incidents C1, coordinates C2 WHERE C1.Neighbourhood_Name = C2.Neighbourhood_Name AND Year >= %d AND Year <= %d AND Crime_Type = "%s" GROUP BY C1.Neighbourhood_Name ORDER BY sum(C1.Incidents_Count) DESC limit %d;'''%(start_year,end_year,type_crime,num_neighbor),connection)
-    
-    print(df)
+    df = pd.read_sql_query('''SELECT C1.Neighbourhood_Name, sum(C1.Incidents_Count) as count, C2.Latitude, C2.Longitude FROM crime_incidents C1, coordinates C2 WHERE C1.Neighbourhood_Name = C2.Neighbourhood_Name AND Year >= %d AND Year <= %d AND Crime_Type = "%s" GROUP BY C1.Neighbourhood_Name ORDER BY sum(C1.Incidents_Count) DESC;'''%(start_year,end_year,type_crime),connection)
+
+
+    #print(df)
     array_data = np.array(df)#np.ndarray()
     list_data= array_data.tolist()#list
-    print(list_data)
+    #print(list_data)
+    
+    
+    
+    N_most_and_least = []
+
+    # append N-most populous neighbourhood into N_most_and_least
+    i = 0
+    while(i<num_neighbor):
+        most = list_data[i][1]
+        count = 0
+        for j in range(len(list_data)-i):
+            if most == list_data[i+j][1]:
+                N_most_and_least.append(list_data[i+j])
+                count += 1
+                i +=1
+                #print(list_data[i+j])
+            else:
+                break
+
+    print("\n",N_most_and_least)
     
     #instantiating a map
     # location = latitude and longitude of thecurrent location
@@ -177,7 +198,7 @@ def task_3(connection):
     #Creating bubble marker on the map -
     # Useful for comparison of an attribute (population, crime rate etc.) in different locations
     #Each bubble has a size related to a specific value.
-    for i in range(len(list_data)):
+    for i in range(len(N_most_and_least)):
         folium.Circle(
                       location=[list_data[i][2],list_data[i][3]],
                       # location
