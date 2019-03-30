@@ -221,7 +221,8 @@ def task_3(connection,count_3):
     html = "Q3-"+str(cnt)+".html"
     m.save(html)
 
-def task_4(connection):
+def task_4(connection,count_4):
+    cnt = count_4
     x = True
 #now user have to give a range of year
     while x:
@@ -238,8 +239,7 @@ def task_4(connection):
 
     df1 = pd.read_sql_query(
                             '''
-                                SELECT c1.Neighbourhood_Name, c1.Latitude, c1.Longitude, c2.crime_type, (c2.crime_count/p.people) as ratio
-                                
+                                SELECT c1.Neighbourhood_Name, c1.Latitude, c1.Longitude, c2.crime_type,c2.crime_count,p.people,(c2.crime_count*1.0/p.people*1.0) as ratio
                                 FROM (SELECT Neighbourhood_Name, (CANADIAN_CITIZEN + NON_CANADIAN_CITIZEN + NO_RESPONSE) as people from population) as p,
                                 coordinates c1,
                                 (select Neighbourhood_Name, Crime_Type as crime_type, sum(Incidents_Count) as crime_count from crime_incidents where year between %d and %d group by Neighbourhood_Name) as c2
@@ -250,8 +250,8 @@ def task_4(connection):
                                 ORDER BY ratio DESC
                                 LIMIT %d;'''
                             % (start_year, end_year, N), connection)
-
-    print(df1['crime_type'])
+                            #because the ratio is really hard to have the tie case so still use the limit
+    print(df1)
 
     m = folium.Map(location=[53.5444,-113.323], zoom_start=11)
     #print(df1.iloc[1])
@@ -260,12 +260,14 @@ def task_4(connection):
         folium.Circle(
                       location = [df1.iloc[i]['Latitude'],df1.iloc[i]['Longitude']],
                       popup = df1.iloc[i]['Neighbourhood_Name']+ ' ' + str(df1.iloc[i]['ratio']),
-                      radius = df1.iloc[i]['ratio'] * 0.1,
+                      radius = df1.iloc[i]['ratio'] * 5000,
                       color = 'crimson',
                       fill = True,
                       fill_color = 'crimson',
                       ).add_to(m)
-    m.save('Q4.html')
+
+    html = "Q4-"+str(cnt)+".html"
+    m.save(html)
 
 
 
