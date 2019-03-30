@@ -11,7 +11,7 @@ import matplotlib
 import folium
 
 
-def task_1(connection):
+def task_1(connection,count_1):
     '''
     Given a range of years and crime type, 
     show (in a bar plot) the month-wise total count of the given crime type. 
@@ -70,7 +70,7 @@ def task_1(connection):
 
 
     
-def task_2(connection):
+def task_2(connection,count_2):
     '''
     Given an integer N, 
     show (in a map) the N-most populous and N-least populous neighborhoods 
@@ -148,7 +148,8 @@ def task_2(connection):
     m.save("Q2.html")
 
 
-def task_3(connection):
+def task_3(connection,count_3):
+    cnt = count_3
     connection=sqlite3.connect("a4.db")
     #enter 4 inputs
     
@@ -218,7 +219,8 @@ def task_3(connection):
 
     # creating the marker with a popup and add it to map
     # saving the marker
-    m.save("Q3.html")
+    html = "Q3-"+str(cnt)+".html"
+    m.save(html)
 
 def task_4(connection):
     pass
@@ -226,6 +228,10 @@ def task_4(connection):
 
 def main():
     connection=sqlite3.connect("a4.db")  # change the database input here.
+    count_1 = 0;
+    count_2 = 0;
+    count_3 = 0;
+    count_4 = 0;
     while(1):
         print("1: Q1")
         print("2: Q2")
@@ -238,16 +244,20 @@ def main():
             if inp == 'E':
                 return
             elif inp == '1':
-                task_1(connection)
+                count_1 += 1
+                task_1(connection,count_1)
                 break
             elif inp == '2':
-                task_2(connection)
+                count_2 += 1
+                task_2(connection,count_2)
                 break
             elif inp == '3':
-                task_3(connection)
+                count_3 += 1
+                task_3(connection,count_3)
                 break
             elif inp == '4':
-                task_4(connection)
+                count_4 += 1
+                task_4(connection,count_4)
                 break
             else:
                 inp=input("Please choose a valid task\n")
