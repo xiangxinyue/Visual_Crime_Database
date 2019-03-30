@@ -20,11 +20,11 @@ N = int(input("Enter an integer:"))
  
 df1 = pd.read_sql_query(
     '''
-    SELECT c1.Neighbourhood_Name, c1.Latitude, c1.Longitude, (c2.crime_count/p.people) as ratio
+    SELECT c1.Neighbourhood_Name, c1.Latitude, c1.Longitude, c2.crime_type, (c2.crime_count/p.people) as ratio
     
     FROM (SELECT Neighbourhood_Name, (CANADIAN_CITIZEN + NON_CANADIAN_CITIZEN + NO_RESPONSE) as people from population) as p,
     coordinates c1, 
-    (select Neighbourhood_Name, sum(Incidents_Count) as crime_count from crime_incidents where year between %d and %d group by Neighbourhood_Name) as c2
+    (select Neighbourhood_Name, Crime_Type as crime_type, sum(Incidents_Count) as crime_count from crime_incidents where year between %d and %d group by Neighbourhood_Name) as c2
     
     WHERE c1.Neighbourhood_Name = c2.Neighbourhood_Name 
     AND c2.Neighbourhood_Name = p.Neighbourhood_Name
@@ -33,7 +33,7 @@ df1 = pd.read_sql_query(
     LIMIT %d;'''
     % (start_year, end_year, N), connection)
 
-print(df1)
+print(df1['crime_type'])
 
 m = folium.Map(location=[53.5444,-113.323], zoom_start=11)
 #print(df1.iloc[1])
