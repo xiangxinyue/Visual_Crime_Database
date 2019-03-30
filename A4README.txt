@@ -20,7 +20,7 @@ For task 1-2:
 
 
 For task3:
-
+Lab ppt and eClass discussion form
 
 For task 4:
 
