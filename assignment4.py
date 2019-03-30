@@ -67,7 +67,7 @@ def task_1(connection,count_1):
         plot = df.plot.bar(x="Month")
         plt.plot()
         pic = "Q1-"+str(cnt)+".png"
-        plt.savefig(pic)
+        plt.savefig(pic)#this line is to save the pic 
         plt.show()
         return
     
@@ -258,6 +258,7 @@ def task_4(connection,count_4):
 
     m = folium.Map(location=[53.5444,-113.323], zoom_start=11)
     #print(df1.iloc[1])
+    #because we do not need to use for-loop deal with the tie case so do not transfer into the list
 
     for i in range(len(df1)):
         folium.Circle(
