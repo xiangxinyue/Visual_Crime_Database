@@ -15,6 +15,8 @@ ccid : xxiang2
 Collaborated: 
 
 References:
+https://stackoverflow.com/questions/4629979/nested-select-statement-in-sql-server
+https://stackoverflow.com/questions/45358880/nested-select-statements-in-from-clause-sql
 
 For task 1-2: 
 
