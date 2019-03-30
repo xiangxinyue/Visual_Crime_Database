@@ -56,7 +56,7 @@ def task_1(connection,count_1):
         for i in range(12):
             m = i+1
             if m not in df['Month'].values:
-                print(i,"Not in dataframe")
+                #print(i,"Not in dataframe")
                 df = df.append({'Month': m,'count':0},ignore_index=True)
         
         df = df.sort_values(by=['Month'])   #sort the dataframe according to the month
