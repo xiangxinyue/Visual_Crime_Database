@@ -254,7 +254,7 @@ def task_4(connection,count_4):
                                 LIMIT %d;'''
                             % (start_year, end_year, N), connection)
                             #because the ratio is really hard to have the tie case so still use the limit
-    print(df1)
+    print(df1['crime_type'])
 
     m = folium.Map(location=[53.5444,-113.323], zoom_start=11)
     #print(df1.iloc[1])
