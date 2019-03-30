@@ -12,6 +12,7 @@ import folium
 
 
 def task_1(connection,count_1):
+    cnt = count_1
     '''
     Given a range of years and crime type, 
     show (in a bar plot) the month-wise total count of the given crime type. 
@@ -65,12 +66,13 @@ def task_1(connection,count_1):
         #draw the bar plot 
         plot = df.plot.bar(x="Month")
         plt.plot()
+        pic = "Q1-"+str(cnt)+".png"
+        plt.savefig(pic)
         plt.show()
         return
-
-
     
 def task_2(connection,count_2):
+    cnt = count_2
     '''
     Given an integer N, 
     show (in a map) the N-most populous and N-least populous neighborhoods 
@@ -144,7 +146,8 @@ def task_2(connection,count_2):
 
     # creating the marker with a popup and add it to map
     # saving the marker
-    m.save("Q2.html")
+    html = "Q2-"+str(cnt)+".html"
+    m.save(html)
 
 
 def task_3(connection,count_3):
